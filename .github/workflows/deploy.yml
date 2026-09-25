@@ -19,7 +19,18 @@ jobs:
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY}}
-          aws-region: us-west-1
+          aws-region: sa-east-1
         
-      - name: Verify AWS authentication
-        run: aws sts get-caller-identity
+      - name: Configure to push a Docker image to an Amazon ECR repository
+        run: aws ecr get-login-password --region sa-east-1 | docker login --username AWS --password-stdin 427780306479.dkr.ecr.sa-east-1.amazonaws.com
+
+      - name: Build image
+        run: docker build -t django-app:latest .
+
+      - name: Tag image
+        run: docker tag django-app:latest \
+             427780306479.dkr.ecr.sa-east-1.amazonaws.com/devops-projects:latest
+
+      - name: Push image to ECR
+        run: docker push \
+            427780306479.dkr.ecr.sa-east-1.amazonaws.com/devops-projects:latest
