@@ -28,9 +28,7 @@ jobs:
         run: docker build -t django-app:latest .
 
       - name: Tag image
-        run: docker tag django-app:latest \
-             427780306479.dkr.ecr.sa-east-1.amazonaws.com/devops-projects:latest
+        run: docker tag django-app:latest 427780306479.dkr.ecr.sa-east-1.amazonaws.com/devops-projects:latest
 
       - name: Push image to ECR
-        run: docker push \
-            427780306479.dkr.ecr.sa-east-1.amazonaws.com/devops-projects:latest
+        run: docker push 427780306479.dkr.ecr.sa-east-1.amazonaws.com/devops-projects:latest
